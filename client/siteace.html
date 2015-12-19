@@ -1,9 +1,20 @@
 <head>
-  <title>siteace</title>
+  <title>SiteAce</title>
 </head>
 
 <body>
-	<!-- navbar  - you will be putting the login functions here -->
+
+</body>
+
+<template name="ApplicationLayout">
+	{{> yield "navbar" }}
+	{{> yield "main" }}
+
+</template>
+
+<!-- navbar - navigation and login function -->
+<template name="navbar">
+
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
@@ -11,16 +22,21 @@
 	        Site Ace
 	      </a>
 	    </div>
+	    {{> loginButtons }}
 	  </div>
 	</nav>
 
+</template>
+
+<!-- home - default page -->
+<template name="home">
 	<div class="container">
 		{{> website_form}}
 		{{> website_list}}
 	</div>
-</body>
+</template>
 
-
+<!-- website_form - form for adding websites to database -->
 <template name="website_form">
 	<a class="btn btn-default js-toggle-website-form" href="#">
   		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -45,7 +61,7 @@
 	</div>
 </template>
 
-<!-- template that displays several website items -->
+<!-- website_list - template that displays several website items -->
 <template name="website_list">
 	<ol>
 	{{#each websites}}
