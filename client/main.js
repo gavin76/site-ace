@@ -70,13 +70,47 @@ Template.website_form.events({
 	"submit .js-save-website-form":function(event){
 
 		// here is an example of how to get the url out of the form:
-		var url = event.target.url.value;
+		var web_url = event.target.url.value;
+		if (!isValidUrl(web_url)) {
+			console.log("Not a valid URL");
+			alert("Please enter a valid URL");
+			return false;
+		}
+
 		console.log("The url they entered is: "+url);
+		var web_title = event.target.title.value;
+		console.log("The title is: " + web_title);
+		var web_desc = event.target.description.value;
+		console.log("The description is: " + web_desc);
+
+		if (Meteor.user()) {
+			Websites.insert({
+				title: web_title, 
+				url: web_url, 
+				description:web_desc,
+				votes: 0, 
+				createdOn:new Date()
+			});
+		}
 		
-		//  put your website saving code in here!	
+		// Reset form
+		$("#url").val("");
+		$("#title").val("");
+		$("#description").val("");
+		$("#website_form").toggle('slow');
 
 		return false;// stop the form submit from reloading the page
 
 	}
 });
+
+function isValidUrl(url) {
+
+	var myVariable = url;
+	if (/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(myVariable)) {
+	  return true;
+	} else {
+	  return false;
+	}   
+}
 

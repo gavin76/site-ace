@@ -40,15 +40,15 @@
 <!-- website_form - form for adding websites to database -->
 <template name="website_form">
 	<a class="btn btn-primary btn-sm js-toggle-website-form" href="#">
-  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a website
 	</a>
 	<div id="website_form" class="hidden_div">
-		<form class="js-save-website-form">
+		<form class="form-horizontal js-save-website-form">
 			<hr>
 			<div class="row">
 				<div class="form-group">
 					<div class="col-xs-12 col-sm-2">
-		    			<label for="url">Site address</label>
+		    			<label for="url" class="control-label">Site address</label>
 		    		</div>
 		    		<div class="col-xs-12 col-sm-10">
 		    			<input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
@@ -58,7 +58,7 @@
 			<div class="row">
 				<div class="form-group">
 					<div class="col-xs-12 col-sm-2">
-						<label for="title">Title</label>
+						<label for="title" class="control-label">Title</label>
 					</div>
 					<div class="col-xs-12 col-sm-10">
 						<input type="text" class="form-control" id="title" placeholder="Mysite">
@@ -68,14 +68,14 @@
 			<div class="row">
 			    <div class="form-group">
 				    <div class="col-xs-12 col-sm-2">
-				    	<label for="description">Description</label>
+				    	<label for="description" class="control-label">Description</label>
 				    </div>
 				    <div class="col-xs-12 col-sm-10">
 				    	<input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
 				    </div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-sm btn-primary">Submit</button>
 		</form>
 	</div>
 </template>
@@ -104,4 +104,8 @@
 		</div>
 	</div>
 </li>
+</template>
+
+<template name="website_detail">
+
 </template>
