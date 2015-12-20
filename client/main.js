@@ -27,7 +27,7 @@ Accounts.ui.config({
 // helper function that returns all available websites
 Template.website_list.helpers({
 	websites:function(){
-		return Websites.find({});
+		return Websites.find({}, {sort:{votes: -1, createdOn: -1}});
 	}
 });
 
@@ -41,9 +41,11 @@ Template.website_item.events({
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
+		var newvotes = this.votes + 1;
 		console.log("Up voting website with id "+website_id);
 		// put the code in here to add a vote to a website!
-
+		Websites.update({_id: website_id},
+						{$set: {votes: newvotes}})
 		return false;// prevent the button from reloading the page
 	}, 
 	"click .js-downvote":function(event){
@@ -51,10 +53,12 @@ Template.website_item.events({
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
+		var newvotes = this.votes - 1;
 		console.log("Down voting website with id "+website_id);
 
 		// put the code in here to remove a vote from a website!
-
+		Websites.update({_id: website_id},
+						{$set: {votes: newvotes}})
 		return false;// prevent the button from reloading the page
 	}
 })
