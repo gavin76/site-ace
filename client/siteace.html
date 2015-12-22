@@ -101,12 +101,13 @@
 				<button type="button" class="btn btn-default js-upvote"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
 				<button type="button" class="btn btn-default js-downvote"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
 			</div>
-			<button type="button" class="btn btn-xs btn-success js-details">Details</button>
+			<a href="/site/{{_id}}" class="btn btn-xs btn-success js-details">Details</a>
 		</div>
 	</div>
 </li>
 </template>
 
-<template name="website_detail">
-
+<template name="site">
+	<p>{{title}}</p>
+	<p>{{url}}</p>
 </template>

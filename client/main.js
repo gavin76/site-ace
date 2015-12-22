@@ -15,6 +15,17 @@ Router.route('/', function() {
 	});
 });
 
+Router.route('/site/:_id', function() {
+	this.render('navbar', {
+		to: "navbar"
+	});
+	this.render('site', {
+		to: "main",
+		data: function() {
+			return Websites.findOne({_id:this.params._id});
+		}
+	});
+});
 /// Accounts config
 
 Accounts.ui.config({
@@ -60,6 +71,12 @@ Template.website_item.events({
 		Websites.update({_id: website_id},
 						{$set: {votes: newvotes}})
 		return false;// prevent the button from reloading the page
+	},
+	"click .js-details":function(event) {
+		$(event.target).css("width", "50px");
+		console.log(event);
+		console.log(event.target);
+    	console.log("Clicked details button");
 	}
 })
 
