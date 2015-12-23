@@ -42,6 +42,23 @@ Template.website_list.helpers({
 	}
 });
 
+Template.comment_list.helpers({
+	comments: function() {
+		var website_id = this._id;
+		return Websites.findOne({_id: website_id}).comments;
+	},
+	hasComments: function() {
+		var website_id = this._id;
+		var comments = Websites.findOne({_id: website_id}).comments;
+		console.log(comments, comments.length);
+		return (comments.length > 0);
+	}
+});
+
+Template.registerHelper('formatDate', function(date) {
+	var monthAbr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	return monthAbr[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+})
 
 /////
 // template events 

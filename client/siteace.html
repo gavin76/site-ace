@@ -109,17 +109,49 @@
 
 <template name="site">
 	<div class="container">
-		<h3>Details for <strong>{{title}}</strong></h3>
-		<h4>Site URL:</h4>
-		<p><a href="{{url}}">{{url}}</a></p>
-		<h4>Date created:</h4>
-		<p>{{createdOn}}</p>
-		<h4>Site added by:</h4>
-		<p>User</p>
-		<h4>Votes</h4>
-		<p>Upvotes: {{upvotes}}  Downvotes: {{downvotes}}</p>
-		<h4>Description:</h4>
-		<p>{{description}}</p>
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{title}}: Details</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<h5>Description:</h5>
+						<p>{{description}}</p>
+						<h5>Site URL:</h5>
+						<p><small><a href="{{url}}">{{url}}</a></small></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<p>Created on: {{createdOn}}</p>
+						<p>Upvotes: {{upvotes}};  Downvotes: {{downvotes}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{> comment_list}}
+	</div>
+</template>
 
+<template name="comment_list">
+	<div class="well">
+		<h5>Comments:</h5>
+		{{#if hasComments}}
+
+			<ul class="list-unstyled">	
+				{{#each comments}}
+				<li>
+					<blockquote>
+						<p>{{comment}}</p>
+						<footer>{{author}}, {{formatDate createdOn}}</footer>
+					</blockquote>
+				</li>
+				{{/each}}
+			</ul>
+
+		{{else}}
+			<p>None</p>
+		{{/if}}
 	</div>
 </template>

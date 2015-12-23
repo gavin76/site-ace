@@ -9,7 +9,17 @@ if (!Websites.findOne()){
 		score: 3,
 		upvotes: 3,
 		downvotes: 0,
-		createdOn:new Date()
+		createdOn:new Date(),
+		comments: [{
+					comment: "Great teachers!",
+					author: "John",
+					createdOn: new Date()
+					},
+					{
+					comment: "Interesting courses",
+					author: "Jade",
+					createdOn: new Date()
+					}]
 	});
 	 Websites.insert({
 		title:"University of London", 
@@ -18,7 +28,8 @@ if (!Websites.findOne()){
 		score: 3,
 		upvotes: 4,
 		downvotes: 1,
-		createdOn:new Date()
+		createdOn:new Date(),
+		comments: []
 	});
 	 Websites.insert({
 		title:"Coursera", 
@@ -27,7 +38,8 @@ if (!Websites.findOne()){
 		score: 2,
 		upvotes: 5,
 		downvotes: 2,
-		createdOn:new Date()
+		createdOn:new Date(),
+		comments: []
 	});
 	Websites.insert({
 		title:"Google", 
@@ -36,7 +48,8 @@ if (!Websites.findOne()){
 		score: 3,
 		upvotes: 6,
 		downvotes: 3,
-		createdOn:new Date()
+		createdOn:new Date(),
+		comments: []
 	});
 }
 
