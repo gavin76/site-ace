@@ -18,7 +18,7 @@
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand" href="#">
+	      <a class="navbar-brand" href="/">
 	        Site Ace
 	      </a>
 	    </div>
@@ -91,23 +91,35 @@
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
-<li><a href="{{url}}">{{title}}</a>
+<li><a href="/site/{{_id}}" class="js-details">{{title}}</a>
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p>{{description}}</p>
+			<p><small>URL: </small><a href="{{url}}">{{url}}</a></p>
 			<p><small>Created on: {{createdOn}}</small></p>
 			<div class="btn-group btn-group-xs" role="group" aria-label="...">
-				<button type="button" class="btn btn-default disabled">Votes: {{votes}}</button>
+				<button type="button" class="btn btn-default disabled">Score: {{score}}</button>
 				<button type="button" class="btn btn-default js-upvote"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
 				<button type="button" class="btn btn-default js-downvote"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
 			</div>
-			<a href="/site/{{_id}}" class="btn btn-xs btn-success js-details">Details</a>
 		</div>
 	</div>
 </li>
 </template>
 
 <template name="site">
-	<p>{{title}}</p>
-	<p>{{url}}</p>
+	<div class="container">
+		<h3>Details for <strong>{{title}}</strong></h3>
+		<h4>Site URL:</h4>
+		<p><a href="{{url}}">{{url}}</a></p>
+		<h4>Date created:</h4>
+		<p>{{createdOn}}</p>
+		<h4>Site added by:</h4>
+		<p>User</p>
+		<h4>Votes</h4>
+		<p>Upvotes: {{upvotes}}  Downvotes: {{downvotes}}</p>
+		<h4>Description:</h4>
+		<p>{{description}}</p>
+
+	</div>
 </template>

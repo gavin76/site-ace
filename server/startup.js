@@ -6,28 +6,36 @@ if (!Websites.findOne()){
 		title:"Goldsmiths Computing Department", 
 		url:"http://www.gold.ac.uk/computing/", 
 		description:"This is where this course was developed.",
-		votes: 1, 
+		score: 3,
+		upvotes: 3,
+		downvotes: 0,
 		createdOn:new Date()
 	});
 	 Websites.insert({
 		title:"University of London", 
 		url:"http://www.londoninternational.ac.uk/courses/undergraduate/goldsmiths/bsc-creative-computing-bsc-diploma-work-entry-route", 
 		description:"University of London International Programme.", 
-		votes: 1,
+		score: 3,
+		upvotes: 4,
+		downvotes: 1,
 		createdOn:new Date()
 	});
 	 Websites.insert({
 		title:"Coursera", 
 		url:"http://www.coursera.org", 
 		description:"Universal access to the world’s best education.", 
-		votes: 2,
+		score: 2,
+		upvotes: 5,
+		downvotes: 2,
 		createdOn:new Date()
 	});
 	Websites.insert({
 		title:"Google", 
 		url:"http://www.google.com", 
 		description:"Popular search engine.", 
-		votes: 1,
+		score: 3,
+		upvotes: 6,
+		downvotes: 3,
 		createdOn:new Date()
 	});
 }
