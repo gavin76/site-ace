@@ -153,5 +153,16 @@
 		{{else}}
 			<p>None</p>
 		{{/if}}
+		{{> comment_form }}
+	</div>
+
+</template>
+
+<template name="comment_form">
+	<form class="js-save-comment-form">
+		<input type="text" class="form-control" id="comment" placeholder="Any comments?">
+		<button type="submit" class="btn btn-sm btn-primary">Add Comment</button>
+	</form>
+	<div id="comment-alert">
 	</div>
 </template>

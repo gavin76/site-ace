@@ -66,34 +66,42 @@ Template.registerHelper('formatDate', function(date) {
 
 Template.website_item.events({
 	"click .js-upvote":function(event){
-		// example of how you can access the id for the website in the database
-		// (this is the data context for the template)
-		var website_id = this._id,
-			newupvotes = this.upvotes + 1,
-			newscore = this.score + 1;
-		
-		console.log("Up voting website with id "+website_id);
-		// put the code in here to add a vote to a website!
-		Websites.update({_id: website_id},
-						{$set: {upvotes: newupvotes,
-								score: newscore}})
+		if (Meteor.user()) {
+			// example of how you can access the id for the website in the database
+			// (this is the data context for the template)
+			var website_id = this._id,
+				newupvotes = this.upvotes + 1,
+				newscore = this.score + 1;
+			
+			console.log("Up voting website with id "+website_id);
+			// put the code in here to add a vote to a website!
+			Websites.update({_id: website_id},
+							{$set: {upvotes: newupvotes,
+									score: newscore}})
+		} else {
+			console.log("Not a meteor user");
+		}
 		return false;// prevent the button from reloading the page
 	}, 
 	"click .js-downvote":function(event){
 
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
-		var website_id = this._id,
-			newdownvotes = this.downvotes + 1,
-			newscore = this.score - 1;
+		if (Meteor.user()) {
+			var website_id = this._id,
+				newdownvotes = this.downvotes + 1,
+				newscore = this.score - 1;
 
-		console.log("Down voting website with id "+website_id);
+			console.log("Down voting website with id "+website_id);
 
-		// put the code in here to remove a vote from a website!
-		Websites.update({_id: website_id},
-						{$set: {downvotes: newdownvotes,
-								score: newscore}})
-		return false;// prevent the button from reloading the page
+			// put the code in here to remove a vote from a website!
+			Websites.update({_id: website_id},
+							{$set: {downvotes: newdownvotes,
+									score: newscore}})
+		} else {
+			console.log("Not a meteor user");
+		}
+		return false;// prevent the button from reloading the page		
 	},
 	"click .js-details":function(event) {
 		$(event.target).css("width", "50px");
@@ -138,6 +146,38 @@ Template.website_form.events({
 		$("#title").val("");
 		$("#description").val("");
 		$("#website_form").toggle('slow');
+
+		return false;// stop the form submit from reloading the page
+
+	}
+});
+
+Template.comment_form.events({
+	"submit .js-save-comment-form": function(event){
+
+		if (Meteor.user()) {
+			var website_id = this._id;
+			var commentobj = {};
+
+			commentobj.comment = event.target.comment.value;
+			commentobj.author = Meteor.user().username;
+			commentobj.createdOn = new Date();
+			
+			if (commentobj.comment !== "") {
+				Websites.update({_id: website_id},
+								{$push: { comments: commentobj }});
+		}
+			console.log(commentobj);
+			
+		} else {
+			var alertmsg = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please log in to add a comment</div>';
+			console.log("Not a meteor user");
+			$("#comment-alert").html(alertmsg);
+			//
+		}
+		
+		// Reset form
+		$("#comment").val("");
 
 		return false;// stop the form submit from reloading the page
 
