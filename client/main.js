@@ -118,14 +118,14 @@ Template.website_form.events({
 	"submit .js-save-website-form":function(event){
 
 		// here is an example of how to get the url out of the form:
-		var web_url = event.target.url.value;
+		var web_url = event.target.websiteurl.value;
 		if (!isValidUrl(web_url)) {
 			console.log("Not a valid URL");
 			alert("Please enter a valid URL");
 			return false;
 		}
 
-		console.log("The url they entered is: "+url);
+		console.log("The url they entered is: " + web_url);
 		var web_title = event.target.title.value;
 		console.log("The title is: " + web_title);
 		var web_desc = event.target.description.value;
@@ -142,7 +142,7 @@ Template.website_form.events({
 		}
 		
 		// Reset form
-		$("#url").val("");
+		$("#websiteurl").val("");
 		$("#title").val("");
 		$("#description").val("");
 		$("#website_form").toggle('slow');
