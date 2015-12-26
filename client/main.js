@@ -137,7 +137,9 @@ Template.website_form.events({
 					title: web_title, 
 					url: web_url, 
 					description:web_desc,
-					votes: 0, 
+					score: 0, 
+                    upvotes: 0,
+                    downvotes: 0,
 					createdOn:new Date()
 				});
 			}
@@ -156,19 +158,11 @@ Template.website_form.events({
 
 Template.search_box.events({
     "keyup #searchbox" : function(event) {
-        if (event.which === 13) {
-            var search_text = $("#searchbox").val();
-            console.log(search_text);
-            Session.set("listingFind", {$or: [{"title": { $regex: search_text, $options: "i" }},
-                                             {"description": { $regex: search_text, $options: "i"}}]});
-            console.log(Session.get("listingFind"));
+        var search_text = $("#searchbox").val();
+        Session.set("listingFind", {$or: [{"title": { $regex: search_text, $options: "i" }},
+                                         {"description": { $regex: search_text, $options: "i"}}]});
         }
-    },
-    "click .js-search-reset" : function(event) {
-        $("#searchbox").val("");
-        Session.set("listingFind", {});
-    }
-});
+    });
 
 Template.comment_form.events({
 	"submit .js-save-comment-form": function(event){
