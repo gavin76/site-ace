@@ -5,3 +5,6 @@
 .alert {
 	margin: 4px 0px 4px 0px;
 }
+ul {
+    list-style-type: none;
+}
