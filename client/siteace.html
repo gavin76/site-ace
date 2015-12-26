@@ -15,23 +15,32 @@
 <!-- navbar - navigation and login function -->
 <template name="navbar">
 
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="/">
-	        Site Ace
-	      </a>
-	    </div>
-	    <p class="navbar-text navbar-right">{{> loginButtons align="right"}}</p>
-	  </div>
-	</nav>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                Site Ace
+                </a>
+            </div>
+            <ul>
+                <li>{{> loginButtons align="right"}}</li>
+            </ul>
+        </div>
+    </nav>
 
 </template>
 
 <!-- home - default page -->
 <template name="home">
 	<div class="container">
-		{{> website_form}}
+        <div class="row">
+            <div class="col-xs-12 col-sm-8">
+                {{> website_form }}
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                {{> search_box }}
+            </div>
+        </div>
 		<hr>
 		{{> website_list}}
 	</div>
@@ -78,6 +87,16 @@
 			<button type="submit" class="btn btn-sm btn-primary">Submit</button>
 		</form>
 	</div>
+</template>
+
+<template name="search_box">
+    <div class="input-group">
+        <input id="searchbox" type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+            <button class="btn btn-default js-search-reset" type="button"><span aria-hidden="true">&times;</span>
+            </button>
+      </span>
+    </div>
 </template>
 
 <!-- website_list - template that displays several website items -->

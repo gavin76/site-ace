@@ -1,5 +1,5 @@
 // main.js file for SiteAce
-
+Session.set("listingFind", {});
 /// Routing
 
 Router.configure({
@@ -38,7 +38,8 @@ Accounts.ui.config({
 // helper function that returns all available websites
 Template.website_list.helpers({
 	websites:function(){
-		return Websites.find({}, {sort:{score: -1, createdOn: -1}});
+        var findParam = Session.get("listingFind");
+		return Websites.find(findParam, {sort:{score: -1, createdOn: -1}});
 	}
 });
 
@@ -102,12 +103,6 @@ Template.website_item.events({
 			console.log("Not a meteor user");
 		}
 		return false;// prevent the button from reloading the page		
-	},
-	"click .js-details":function(event) {
-		$(event.target).css("width", "50px");
-		console.log(event);
-		console.log(event.target);
-    	console.log("Clicked details button");
 	}
 })
 
@@ -117,39 +112,62 @@ Template.website_form.events({
 	}, 
 	"submit .js-save-website-form":function(event){
 
-		// here is an example of how to get the url out of the form:
-		var web_url = event.target.websiteurl.value;
-		if (!isValidUrl(web_url)) {
-			console.log("Not a valid URL");
-			alert("Please enter a valid URL");
-			return false;
-		}
-
-		console.log("The url they entered is: " + web_url);
-		var web_title = event.target.title.value;
-		console.log("The title is: " + web_title);
-		var web_desc = event.target.description.value;
-		console.log("The description is: " + web_desc);
-
-		if (Meteor.user()) {
-			Websites.insert({
-				title: web_title, 
-				url: web_url, 
-				description:web_desc,
-				votes: 0, 
-				createdOn:new Date()
+		if (Meteor.user) {
+			var web_url = event.target.websiteurl.value;
+			if (!isValidUrl(web_url)) {
+				console.log("Not a valid URL");
+				alert("Please enter a valid URL");
+				return false;
+			}
+			console.log("The url they entered is: " + web_url);
+			Meteor.call("getUrlInfo", web_url, {}, function(err, result) {
+				if (err) {
+					console.log("Error: ", err);
+				};
+				console.log("Meta data: " + result);
 			});
+
+			var web_title = event.target.title.value;
+			console.log("The title is: " + web_title);
+			var web_desc = event.target.description.value;
+			console.log("The description is: " + web_desc);
+
+			if (Meteor.user()) {
+				Websites.insert({
+					title: web_title, 
+					url: web_url, 
+					description:web_desc,
+					votes: 0, 
+					createdOn:new Date()
+				});
+			}
+			
+			// Reset form
+			$("#websiteurl").val("");
+			$("#title").val("");
+			$("#description").val("");
+			$("#website_form").toggle('slow');
 		}
-		
-		// Reset form
-		$("#websiteurl").val("");
-		$("#title").val("");
-		$("#description").val("");
-		$("#website_form").toggle('slow');
 
 		return false;// stop the form submit from reloading the page
 
 	}
+});
+
+Template.search_box.events({
+    "keyup #searchbox" : function(event) {
+        if (event.which === 13) {
+            var search_text = $("#searchbox").val();
+            console.log(search_text);
+            Session.set("listingFind", {$or: [{"title": { $regex: search_text, $options: "i" }},
+                                             {"description": { $regex: search_text, $options: "i"}}]});
+            console.log(Session.get("listingFind"));
+        }
+    },
+    "click .js-search-reset" : function(event) {
+        $("#searchbox").val("");
+        Session.set("listingFind", {});
+    }
 });
 
 Template.comment_form.events({

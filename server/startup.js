@@ -1,5 +1,7 @@
+
 Meteor.startup(function () {
 // code to run on server at startup
+
 if (!Websites.findOne()){
 	console.log("No websites yet. Creating starter data.");
 	  Websites.insert({
@@ -54,3 +56,21 @@ if (!Websites.findOne()){
 }
 
 });
+
+Meteor.methods({
+	getUrlInfo: function(url) {
+		this.unblock;
+		console.log("Attempting to get info from url: " + url);
+        
+        HTTP.call("GET", url, function(response, err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(response.content);
+                return response.content;
+            }
+            
+        });
+	}
+});
+
