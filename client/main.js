@@ -56,7 +56,7 @@ Template.home.helpers({
 Template.website_list.helpers({
 	websites:function(){
         var findParam = Session.get("listingFind");
-		return Websites.find(findParam, {sort:{score: -1, createdOn: -1}});
+		return Websites.find(findParam, {sort:{upvotes: -1, score: -1}});
 	}
 });
 

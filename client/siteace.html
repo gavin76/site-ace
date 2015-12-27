@@ -39,7 +39,7 @@
         {{#if isLoggedIn}}
             <p>Hello {{username}}!</p>
             <p>Feel free to add a website or click on the websites below for more details and comments.</p>
-            <p>You may vote by clicking on the plus or minus buttons to upvote or downvote a website.</p>
+            <p>You may vote by clicking on the up or down arrow buttons to upvote or downvote a website.</p>
             {{> website_form }}
         {{else}}
             <p>Welcome to SiteAce!</p>
@@ -124,11 +124,11 @@
 			<p><small>Created on: {{createdOn}}</small></p>
             <p><small>Score: {{score}}; Comments: {{numcomments}}</small></p>
             <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                <button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> {{upvotes}} </button>
-                <button type="button" class="btn btn-default js-upvote"> + </button><button type="button" class="btn btn-default disabled"> Votes </button>
-                <button type="button" class="btn btn-default js-downvote"> - </button>
-                <button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> {{downvotes}} </button>
+                <button type="button" class="btn btn-default js-upvote"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> {{upvotes}} </button>
+                <button type="button" class="btn btn-default disabled"> Votes </button>
+                <button type="button" class="btn btn-default js-downvote"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> {{downvotes}} </button>
             </div>
+            <a href="/site/{{_id}}" type="button" class="btn btn-xs btn-success js-details">Details &raquo;</a>
             
 		</div>
 	</div>
