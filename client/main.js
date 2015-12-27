@@ -113,6 +113,8 @@ Template.website_form.events({
 	"submit .js-save-website-form":function(event){
 
 		if (Meteor.user) {
+            
+            // Check for URL
 			var web_url = event.target.websiteurl.value;
 			if (!isValidUrl(web_url)) {
 				console.log("Not a valid URL");
@@ -120,35 +122,41 @@ Template.website_form.events({
 				return false;
 			}
 			console.log("The url they entered is: " + web_url);
-			Meteor.call("getUrlInfo", web_url, {}, function(err, result) {
-				if (err) {
-					console.log("Error: ", err);
-				};
-				console.log("Meta data: " + result);
-			});
-
-			var web_title = event.target.title.value;
+            
+            // Check if title and description entered
+            // If not, to try get from URL
+            // If so, to insert directly into database
+            
+            var web_title = event.target.title.value;
 			console.log("The title is: " + web_title);
 			var web_desc = event.target.description.value;
 			console.log("The description is: " + web_desc);
 
-			if (Meteor.user()) {
-				Websites.insert({
-					title: web_title, 
-					url: web_url, 
-					description:web_desc,
-					score: 0, 
-                    upvotes: 0,
-                    downvotes: 0,
-					createdOn:new Date()
-				});
-			}
-			
-			// Reset form
-			$("#websiteurl").val("");
-			$("#title").val("");
-			$("#description").val("");
-			$("#website_form").toggle('slow');
+            if (web_title === '' || web_desc === '') {
+                Meteor.call("remoteGet", web_url, {}, function(error, response) {
+                    console.log("Attempt get URL");
+                    if (error) {
+                        console.log("Error: " + error);
+                    } else {
+                        console.log(response.content);
+                        if (web_title === '') {
+                            web_title = $(response.content).filter('title').text();
+                            console.log("Title set: " + web_title);
+                        }
+                        if (web_desc === '') {
+                            web_desc = $(response.content).filter('meta[name="description"]').attr("content");
+                            if (web_desc === undefined) {
+                                web_desc = "No description available";
+                            }
+                            console.log("Description set: " + web_desc);
+                        }
+                        insertWebsite(web_url, web_title, web_desc);
+                    }
+                });
+                
+            } else {
+                insertWebsite(web_url, web_title, web_desc);
+            } 
 		}
 
 		return false;// stop the form submit from reloading the page
@@ -206,3 +214,21 @@ function isValidUrl(url) {
 	}   
 }
 
+function insertWebsite(url, wtitle, wdesc) {
+     Websites.insert({
+                title: wtitle, 
+                url: url, 
+                description: wdesc,
+                score: 0, 
+                upvotes: 0,
+                downvotes: 0,
+                createdOn:new Date()
+            });
+    console.log("Inserted website");
+    // Reset form
+    $("#websiteurl").val("");
+    $("#title").val("");
+    $("#description").val("");
+    $("#website_form").toggle('slow');
+            
+}
