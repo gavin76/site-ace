@@ -58,35 +58,8 @@ if (!Websites.findOne()){
 });
 
 Meteor.methods({
-    
     "remoteGet": function(url, options) {
         return HTTP.get(url, options);
     }
-    /*
-	getUrlInfo: function(url) {
-		this.unblock;
-		console.log("Attempting to get info from url: " + url);
-        
-        HTTP.get(url, {headers: {Accept: '/'}}, function(err, response) {
-            if (err) {
-                console.log("Error: " + err);
-                return err;
-            }
-            
-                console.log("StatusCode: " + response.statusCode);
-                console.log(response.content);
-                return response.content;
-                
-        }); 
-        
-        try {
-            var result = HTTP.get(url, {headers: {Accept: '/'}});
-            var data = result.content;
-            console.log(data);
-            return(data);
-        } catch (err) {
-            console.log("Cannot get page from URL: " + err);
-        }
-	} */
 });
 

@@ -35,12 +35,38 @@ Accounts.ui.config({
 
 /// Template Helpers
 
+Template.home.helpers({
+    isLoggedIn: function() {
+        if (Meteor.user()) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    username: function() {
+        if (Meteor.user()) {
+            return Meteor.user().username;
+        } else {
+            return "Anon";
+        }
+    }
+});
+
 // helper function that returns all available websites
 Template.website_list.helpers({
 	websites:function(){
         var findParam = Session.get("listingFind");
 		return Websites.find(findParam, {sort:{score: -1, createdOn: -1}});
 	}
+});
+
+Template.website_item.helpers({
+    numcomments: function() {
+        var website_id = this._id;
+		var comments = Websites.findOne({_id: website_id}).comments;
+		console.log(comments.length);
+		return (comments.length);
+    }
 });
 
 Template.comment_list.helpers({
@@ -141,11 +167,20 @@ Template.website_form.events({
                         console.log(response.content);
                         if (web_title === '') {
                             web_title = $(response.content).filter('title').text();
+                            if (web_title === undefined) {
+                                web_title = prompt("No title available from website. Please enter a title");
+                            }
+                            if (web_title === "") {
+                                web_title = "Untitled";
+                            }
                             console.log("Title set: " + web_title);
                         }
                         if (web_desc === '') {
                             web_desc = $(response.content).filter('meta[name="description"]').attr("content");
                             if (web_desc === undefined) {
+                                web_desc = prompt("No description available from website. Please enter a description");
+                            }
+                            if (web_desc === "") {
                                 web_desc = "No description available";
                             }
                             console.log("Description set: " + web_desc);
@@ -222,7 +257,8 @@ function insertWebsite(url, wtitle, wdesc) {
                 score: 0, 
                 upvotes: 0,
                 downvotes: 0,
-                createdOn:new Date()
+                createdOn:new Date(),
+                comments: []
             });
     console.log("Inserted website");
     // Reset form

@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
-                SiteAce
+                SiteAce: <small>A social website aggregator</small>
                 </a>
             </div>
             <div class="navbar-right">
@@ -35,15 +35,20 @@
 <!-- home - default page -->
 <template name="home">
 	<div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8">
-                {{> website_form }}
-            </div>
-            <div class="col-xs-12 col-sm-4">
-                {{> search_box }}
-            </div>
-        </div>
+        <h2>Interesting Websites</h2>
+        {{#if isLoggedIn}}
+            <p>Hello {{username}}!</p>
+            <p>Feel free to add a website or click on the websites below for more details and comments.</p>
+            <p>You may vote by clicking on the plus or minus buttons to upvote or downvote a website.</p>
+            {{> website_form }}
+        {{else}}
+            <p>Welcome to SiteAce!</p>
+            <p>Please register or login to vote, add a website, or comment.</p>
+        {{/if}}
+        
 		<hr>
+        {{> search_box }}
+        <hr>
 		{{> website_list}}
 	</div>
 </template>
@@ -69,7 +74,7 @@
 			<div class="row">
 				<div class="form-group">
 					<div class="col-xs-12 col-sm-2">
-						<label for="title" class="control-label">Title</label>
+						<label for="title" class="control-label">Title*</label>
 					</div>
 					<div class="col-xs-12 col-sm-10">
 						<input type="text" class="form-control" id="title" placeholder="Mysite">
@@ -79,14 +84,19 @@
 			<div class="row">
 			    <div class="form-group">
 				    <div class="col-xs-12 col-sm-2">
-				    	<label for="description" class="control-label">Description</label>
+				    	<label for="description" class="control-label">Description*</label>
 				    </div>
 				    <div class="col-xs-12 col-sm-10">
 				    	<input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
 				    </div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+            <div class="row">
+                <div class="col-xs-12 col-sm-2"><button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+                <div class="col-xs-12 col-sm-10"><small>* Title and Description are optional and will be retrieved if available from the website address provided.</small>
+                </div>
+            </div>
 		</form>
 	</div>
 </template>
@@ -106,17 +116,20 @@
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
-<li><a href="/site/{{_id}}" class="js-details">{{title}}</a>
+<li><a href="/site/{{_id}}" class="js-details">{{title}}</a>            
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p>{{description}}</p>
 			<p><small>URL: </small><a href="{{url}}">{{url}}</a></p>
 			<p><small>Created on: {{createdOn}}</small></p>
-			<div class="btn-group btn-group-xs" role="group" aria-label="...">
-				<button type="button" class="btn btn-default disabled">Score: {{score}}</button>
-				<button type="button" class="btn btn-default js-upvote"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-				<button type="button" class="btn btn-default js-downvote"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-			</div>
+            <p><small>Score: {{score}}; Comments: {{numcomments}}</small></p>
+            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                <button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> {{upvotes}} </button>
+                <button type="button" class="btn btn-default js-upvote"> + </button><button type="button" class="btn btn-default disabled"> Votes </button>
+                <button type="button" class="btn btn-default js-downvote"> - </button>
+                <button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> {{downvotes}} </button>
+            </div>
+            
 		</div>
 	</div>
 </li>
@@ -124,6 +137,10 @@
 
 <template name="site">
 	<div class="container">
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li>Details</li>
+        </ol>
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title">{{title}}: Details</h3>
@@ -140,7 +157,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<p>Created on: {{createdOn}}</p>
-						<p>Upvotes: {{upvotes}};  Downvotes: {{downvotes}}</p>
+						<p>Score: {{score}}; Upvotes: {{upvotes}};  Downvotes: {{downvotes}}</p>
 					</div>
 				</div>
 			</div>
